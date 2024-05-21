@@ -57,15 +57,12 @@
                </div>
                <div class="instagram">
                <a href="user.php">
-               <input class="instagram" type="button" value="ຜູ່ພັກເຊົ່າ">
+               <input class="instagram" type="button" value="ຜູ້ພັກເຊົ່າ">
                </a>
                  
                </div>
             </div>
-            <div class="signup">
-               Don't have account?
-               <a href="register.php">Signup Now</a>
-            </div>
+         
          </div>
          
         <script>
