@@ -66,6 +66,10 @@
                Don't have account?
                <a href="register.php">Signup Now</a>
             </div>
+            <div class="signup">
+               go to 
+               <a href="./admin/loginadmin.php">Admin</a>
+            </div>
          </div>
          
         <script>

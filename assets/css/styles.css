@@ -401,11 +401,7 @@ body{
 
 /*-------------------- 2.2 Header Area -------------------*/
 
-.header-area {
-  padding: 15px 30px;
-  background: #fff;
-  border-bottom: 1px solid #d8e3e7;
-}
+
 
 .nav-btn {
   margin: 10px 30px 0 0;
@@ -714,21 +710,7 @@ ul.breadcrumbs {
   text-transform: capitalize;
 }
 
-.user-profile {
-  margin-right: -30px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-  background: -webkit-linear-gradient(left, #8914fe 0%, #8063f5 100%);
-  background: linear-gradient(to right, #8914fe 0%, #8063f5 100%);
-  padding: 17px 38px;
-  position: relative;
-}
+
 
 .user-profile img.avatar {
   height: 35px;

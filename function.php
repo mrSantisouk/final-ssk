@@ -1,12 +1,14 @@
 <?php
-function connectDB()
-{
-    $serverName = "localhost";
-    $userName = "root";
-    $userPassword = "";
-    $dbName = "hrgkanbn";
+$servername = "localhost";
+$username = "root"; // Your MySQL username
+$password = ""; // Your MySQL password
+$dbname = "hrgkanbn"; // Your database name
 
-    $objCon = mysqli_connect($serverName, $userName, $userPassword, $dbName);
-    mysqli_set_charset($objCon, "utf8");
-    return $objCon;
+// Create connection
+$objCon = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($objCon->connect_error) {
+    die("Connection failed: " . $objCon->connect_error);
 }
+?>

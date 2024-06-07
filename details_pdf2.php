@@ -14,23 +14,23 @@
             <p style=" font-size:16;">ແຂວງນະຄອນຫຼວງວຽງຈັນ</p>
             <p style=" font-size:16;">ເມືອງຈັນທະບູລີ</p>
             <p style=" font-size:16;">ບ້ານດອນແດງ</p>
-             <p style=" font-size:16;">ເລກທີ......../.......</p>
+             <p style=" font-size:16;">ເລກທີ<?= $user['from_number'] ?></p>
              <p style=" font-size:16;">ໃບຢັ້ງຢືນທີ່ຢູ່</p>
         
     </center>
     <p style="margin-left: 90px;">ນາຍບ້ານດອນແດງ ,ເມືອງຈັນທະບູລີ ,ແຂວງນະຄອນຫຼວງວຽງຈັນ </p>
-    <p style="margin-left: 110px;">ຂໍຢັ້ງຢືນວ່າ ທ້າວ ຫຼື ນາງ..............ອາຍຸ........ປີ,ອາຊິບ.............ສັນຊາດ............</p>
-    <p style="margin-left: 90px;">ປະຈຸບັນຢູ່ບ້ານ.................. ຄຸ້ມ:............ໜ່ວຍ............ເຮືອນເລກທີ...........</p>
-    <p style="margin-left: 90px;">ໄດ້ຈົດເຂົ້າສໍາມະໂນຄົວເລກທີ.............ລົງວັນທີ......../......./.......ເມືອງ...............</p>
-    <p style="margin-left: 90px;">ແຂວງ..............,ເປັນລູກຂອງທ້າວ................... ແລະ ນາງ......................</p>
-    <p style="margin-left: 90px;">ທີ່ບ້ານ...............,ເມືອງ................ແຂວງ...................</p>
+    <p style="margin-left: 110px;">ຂໍຢັ້ງຢືນວ່າ ທ້າວ ຫຼື ນາງ<?= $user['name'] ?>ອາຍຸ<?= $user['old'] ?>ປີ,ອາຊິບ<?= $user['employment'] ?>ສັນຊາດ<?= $user['national'] ?></p>
+    <p style="margin-left: 90px;">ປະຈຸບັນຢູ່ບ້ານ<?= $user['current'] ?> ຄຸ້ມ<?= $user['khoum'] ?>ໜ່ວຍ<?= $user['nuay'] ?>ເຮືອນເລກທີ<?= $user['home_number'] ?></p>
+    <p style="margin-left: 90px;">ໄດ້ຈົດເຂົ້າສໍາມະໂນຄົວເລກທີ<?= $user['family_namber'] ?>ລົງວັນທີ<?= $user['date'] ?>ເມືອງ<?= $user['district'] ?></p>
+    <p style="margin-left: 90px;">ແຂວງ<?= $user['province'] ?>ເປັນລູກຂອງທ້າວ<?= $user['father_name'] ?> ແລະ ນາງ<?= $user['mother_name'] ?></p>
+    <p style="margin-left: 90px;">ທີ່ບ້ານ<?= $user['father_village'] ?>ເມືອງ<?= $user['father_district'] ?>ແຂວງ<?= $user['father_province'] ?></p>
     <p style="margin-left: 90px;">ຜູ້ກ່ຽວຢູ່ໃນຄວາມຮັບຜິດຊອບຂອງພວກເຮົາ ແລະ ຢູ່ໃນການຈັດຕັ້ງຂອງພວກເຮົາຢ່າງແທ້ຈິງ.</p>
     <p style="margin-left: 80px;">ດັ່ງນັ້ນ, ຈົ່ງອອກໃບຢັ້ງຢືນສະບັບນີ້ໃຫ້ຜູ້ກ່ຽວໄວ້ເປັນຫຼັກຖານ. ຖ້າຜູ້ກ່ຽວບໍ່ມີພຶດຕິກໍາທີ່ຕໍ່ຕ້ານກັບປະຊາຊົນ ແລະ</p>
     <p style="margin-left: 80px;">ອໍານາດການປົກຄອງຂອງລັດແລ້ວ. ຂໍໃຫ້ພະນັກງານທີ່ກ່ຽວຂ້ອງໄດ້ອໍານວຍຄວາມສະດວກຕາມທາງທີ່ຄວນດ້ວຍ.</p>
-    <p style="margin-left: 80px;">ໃບຢັ້ງຢືນສະບັບນີ້ໃຊ້ເພື່ອ .......................................ແລະ ຢັ້ງຢືນວ່າຜູ້ກ່ຽວຢູ່ໃນ</p>
+    <p style="margin-left: 80px;">ໃບຢັ້ງຢືນສະບັບນີ້ໃຊ້ເພື່ອ <?= $user['saiphuea'] ?>ແລະ ຢັ້ງຢືນວ່າຜູ້ກ່ຽວຢູ່ໃນ</p>
     <p style="margin-left: 80px;">ຄວາມປົກຄອງຂອງພວກເຮົາຢ່າງແທ້ຈິງ.</p>
     <center><p >ຮຽນມາດ້ວຍຄວາມນັບຖືຢ່າງສູງ.</p></center>
-    <p style="margin-left: 100px;">ວັນທີ......../......./.......... </p>
+    <p style="margin-left: 100px;">ວັນທີ../../..</p>
     </div>
         <p>aaaaaນາຍບ້ານaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ຜູ້ຮ້ອງຂໍ</p> 
         <p>  </p>

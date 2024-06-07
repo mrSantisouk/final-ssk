@@ -1,5 +1,5 @@
 <?php 
-include('config.php');
+include('./config.php');
 require 'dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -7,14 +7,14 @@ use Dompdf\Options;
 $options = new Options();
 $options->set('chroot',realpath(''));
 $options->set('defaultFont','Phetsarath');
-$id = $_GET['id'];
-$sql = mysqli_query($con,"SELECT * FROM user WHERE u_id='$id'");
+
+$sql = mysqli_query($con,"SELECT * FROM from_yungyuen ");
 $user = mysqli_fetch_assoc($sql);
 
 // instantiate and use the dompdf class
 $dompdf = new Dompdf();
 ob_start();
-require('details_pdf.php');
+require('details_pdf3.php');
 $html =ob_get_contents();
 ob_get_clean();
 

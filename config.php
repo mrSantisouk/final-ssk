@@ -1,12 +1,17 @@
-<!-- <?php 
-define('HOST','localhost');
-define('DBUSER','root');
-define('DBPASSWORD','');
-define('DB','hrgkanbn');
 
-$con =mysqli_connect(HOST,DBUSER,DBPASSWORD,DB);
+<?php
+$hostname = "localhost";
+$username = "root";
+$password = "";  
+$database = "hrgkanbn";   
+$con=mysqli_connect($hostname,$username,$password,$database);  
 if($con->connect_errno)
 {
     echo 'database connection error';
 }
- ?> -->
+ ?>
+
+
+  
+
+?> 

@@ -535,6 +535,7 @@
 }
 .ti-dashboard:before {
 	content: "\e6aa";
+	
 }
 .ti-control-stop:before {
 	content: "\e6ab";

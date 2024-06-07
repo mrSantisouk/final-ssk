@@ -432,18 +432,7 @@
     .sidebar-menu {
         width: 365px;
     }
-    .nav-btn {
-        position: fixed;
-        z-index: 99;
-        left: 363px;
-        background: #303641;
-        padding: 14px;
-        top: 0;
-        margin: 0;
-    }
-    .nav-btn span {
-        background: #fffbfb;
-    }
+    
     .sbar_collapsed .sidebar-menu {
         left: -90%;
     }

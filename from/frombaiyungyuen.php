@@ -1,9 +1,67 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_login'])) { // If the user is not logged in
+include('./dbconn.php');
+
+if (!isset($_SESSION['user_login'])) {
+     // If the user is not logged in
     header("location: login.php"); // Redirect to the login page
-    exit;
 }
+else{
+    if (!isset($_SESSION['user_login'])) {
+        // If the user is not logged in
+        header("location: login.php"); // Redirect to the login page
+        exit; // Ensure no further code is executed
+    }
+    
+    if (isset($_POST['apply'])) {
+        // Check if all required fields are set
+        $requiredFields = ['organization', 'name', 'old', 'sungkut_date', 'Responsibilities', 'sungkut', 'person', 'position'];
+        $missingFields = [];
+    
+        foreach ($requiredFields as $field) {
+            if (!isset($_POST[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+    
+        if (!empty($missingFields)) {
+            // Handle missing fields
+            $error = "The following fields are missing: " . implode(', ', $missingFields);
+        } else {
+            // Assign variables
+            $organization = $_POST['organization'];
+            $name = $_POST['name'];
+            $old = $_POST['old'];
+            $sungkut_date = $_POST['sungkut_date'];
+            $Responsibilities = $_POST['Responsibilities'];
+            $sungkut = $_POST['sungkut'];
+            $person = $_POST['person'];
+            $position = $_POST['position'];
+    
+            // Prepare and execute SQL query
+            $sql = "INSERT INTO from_yungyuen (organization, name, old, sungkut_date, Responsibilities, sungkut, person, position) 
+                    VALUES (:organization, :name, :old, :sungkut_date, :Responsibilities, :sungkut, :person, :position)";
+            $query = $dbh->prepare($sql);
+            $query->bindParam(':organization', $organization, PDO::PARAM_STR);
+            $query->bindParam(':name', $name, PDO::PARAM_STR);
+            $query->bindParam(':old', $old, PDO::PARAM_INT);
+            $query->bindParam(':sungkut_date', $sungkut_date, PDO::PARAM_STR);
+            $query->bindParam(':Responsibilities', $Responsibilities, PDO::PARAM_STR);
+            $query->bindParam(':sungkut', $sungkut, PDO::PARAM_STR);
+            $query->bindParam(':person', $person, PDO::PARAM_STR);
+            $query->bindParam(':position', $position, PDO::PARAM_STR);
+            $query->execute();
+            $lastInsertId = $dbh->lastInsertId();
+    
+            if ($lastInsertId) {
+                $msg = "ທ່ານປ້ອນຂໍ້ມູນສຳເລັດ";
+            } else {
+                $error = "ຂໍອາໄພ, ທ່ານປ້ອນຂໍ້ມູນບໍ່ຖືກ. ກາລຸນາລອງໃໝ່ອີກຄັ່ງ.";
+            }
+        }
+    }
+    
+
 include('../function.php');
 $user = $_SESSION['user_login'];
 
@@ -12,13 +70,8 @@ if ($user['level'] == 'administrator') {
     header("location: admin.php"); // Redirect to the admin page
     exit;
 }
-$lastInsertId = null;
-if($lastInsertId)
-{
-     $msg="ສົ່ງຂໍ້ມູນສຳເລັດ";
-}   else    {
-    $error="ຂໍອະໄພປ້ອນຂໍ້ມູນບໍ່ຖືກ ລອງໃໝ່ອີກຄັ້ງ";
-}
+
+
 
 ?>
 <!DOCTYPE html>
@@ -27,8 +80,7 @@ if($lastInsertId)
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title >  ສະຖາບັນການທະນາຄານ</title>
-    <link rel="icon" type="image/x-icon" href="../assets/images/BI.png">
+  
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="../assets/images/icon/favicon.ico">
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
@@ -45,6 +97,7 @@ if($lastInsertId)
     <link rel="stylesheet" href="../assets/css/default-css.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/fonts.css">
+    <link rel="stylesheet" href="./from.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao&display=swap" rel="stylesheet">
@@ -148,70 +201,28 @@ img {vertical-align: middle;}
 @media only screen and (max-width: 300px) {
   .prev, .next,.text {font-size: 11px}
 }
+.w3-bar {
+  width: 100%;
+  overflow: hidden;
+  background-color: #000000;
+}
 </style>
 <body>
     
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a style="font-family: Noto Sans Lao;" class="navbar-brand fw-bold text-uppercase" href="#">ເວັບໄຊຫ້ອງການບ້ານດອນແດງ</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link me-2" href="index.php" style="font-family: Noto Sans Lao;">
-                        <i  class="bi bi-house-fill me-1"></i>ໜ້າຫຼັກ
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link me-2" href="#" style="font-family: Noto Sans Lao;">
-                        <i class="bi bi-people-fill me-1"></i>ແຈ້ງການ
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-family: Noto Sans Lao;">
-                        ໃບຄຳຮ້ອງ
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <!-- <a target="_blank" href="print-details.php?id=<?=$row['id']?>" class="btn btn-sm btn-primary"> <i class="fa fa-file-pdf-o"></i> Print  Details</a> -->
-                        <li><a class="dropdown-item" target="_blank" href="print-details.php?id=<?=$row['id']?>" style="font-family: Noto Sans Lao;"><i class="bi bi-houses-fill me-2"></i>ໃບຢັ້ງຢືນທີ່ຢູ່</a></li>
-                        <li><a class="dropdown-item" target="_blank" href="print-details2.php?id=<?=$row['id']?>" style="font-family: Noto Sans Lao;"><i class="bi bi-people-fill me-2"></i>ໃບຄຳຮ້ອງ</a></li>
-                        <li><a class="dropdown-item" target="_blank" href="print-details3.php?id=<?=$row['id']?>" style="font-family: Noto Sans Lao;"><i class="bi bi-journals me-2"></i>ໃບຢັ້ງຢືນ</a></li>
-                        <li><a class="dropdown-item" target="_blank" href="print-details4.php?id=<?=$row['id']?>" style="font-family: Noto Sans Lao;"><i class="bi bi-journal-text me-2"></i>ໃບຊີວະປະຫວັດ</a></li>
-                        <li><a class="dropdown-item" href="#" style="font-family: Noto Sans Lao;"><i class="bi bi-journal-text me-2"></i>ໃບຄຳຮ້ອງຂໍຖືບັດພັກເຊົາຊົ່ວຄາວ</a></li>
-                    </ul>
-
-                        
-                </li>   
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-family: Noto Sans Lao;">
-                        ລາຍງານ
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="" style="font-family: Noto Sans Lao;"><i class="bi bi-houses-fill me-2"></i>ລາຍງານໃບຢັ້ງຢືນທີ່ຢູ່</a></li>
-                        <li><a class="dropdown-item" href="profile.php" style="font-family: Noto Sans Lao;"><i class="bi bi-people-fill me-2"></i>ລາຍງານໃບຄຳຮ້ອງ</a></li>
-                        <li><a class="dropdown-item" href="#" style="font-family: Noto Sans Lao;"><i class="bi bi-journals me-2"></i>ລາຍງານໃບຢັ້ງຢືນ</a></li>
-                        <li><a class="dropdown-item" href="#" style="font-family: Noto Sans Lao;"><i class="bi bi-journal-text me-2"></i>ລາຍງານໃບຊີວະປະຫວັດ</a></li>
-                        <li><a class="dropdown-item" href="#" style="font-family: Noto Sans Lao;"><i class="bi bi-journal-text me-2"></i>ລາຍງານນັດໝາຍ</a></li>
-                    </ul>
-                </li>  
-            </ul>
-                    <li style="font-family: Noto Sans Lao;" class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            ສະບາຍດີ<?php echo $user['fullname']; ?>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">ຂໍ້ມູນສ່ວນຕົວ</a></li>
-                            <li><a class="dropdown-item" href="logout_action.php">ອອກ</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-    </nav>
+<div class="w3-top nav">
+ <div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="../index.php" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>ໜ້າຫຼັກ</a>
+  <a href="#team" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ໂຄງຮ່າງການຈັດຕັ້ງ</a>
+  <a href="#work" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ແຈ້ງການ </a>
+  <a href="#notice" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ການເຄື່ອນໄຫວ</a>
+  <a href="#form" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ໃບຄຳຮ້ອງ</a>
+  <a href="../h2.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ລູກບ້ານ</a>
+  <a href="../h.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ຜູ້ພັກເຊົ່າ</a>
+  
+  <a href="#contact" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ຕິດຕໍ່</a>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div> 
     <div class="main-content">
             <!-- header area start -->
            
@@ -246,7 +257,7 @@ img {vertical-align: middle;}
                             <div class="col-12 mt-5">
                            
                             
-                            <?php if($error){?><div class="alert alert-danger alert-dismissible fade show"><strong>Info: </strong><?php echo htmlentities($error); ?>
+                            <!-- <?php if($error){?><div class="alert alert-danger alert-dismissible fade show"><strong>Info: </strong><?php echo htmlentities($error); ?>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -256,34 +267,26 @@ img {vertical-align: middle;}
                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                 </div><?php }?>
+                                 </div><?php }?> -->
                                 <div class="card">
                                 <form name="addemp" method="POST">
-
                                 <div class="card-body">
-                                        <h4 class="header-title">ກາລຸນາປ້ອນຂໍ້ມູນ</h4>
-                                        <!-- <p class="text-muted font-14 mb-4">Please fill up the form below.</p> -->
-                                                                  
+                                        <h4 class="header-title">ກາລຸນາປ້ອນຂໍ້ມູນ</h4>                                                              
                                         <div class="form-group">
                                         <label for="example-text-input" class="col-form-label">ຊື່ອົງການຈັດຕັ້ງ</label>
-                                            <textarea class="form-control" name="description" type="text" name="description" length="100" id="example-text-input" rows="1" ></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-date-input" class="col-form-label">Starting Date</label>
-                                            <input class="form-control" type="date" value="2020-03-05" data-inputmask="'alias': 'date'" required id="example-date-input" name="fromdate">
-                                        </div>
-
+                                            <textarea class="form-control" name="organization" type="text" length="100" id="example-text-input" rows="1" ></textarea>
+                                        </div>                                      
                                         <!-- <div class="form-group">
                                             <label for="example-date-input" class="col-form-label">End Date</label>
                                             <input class="form-control" type="date" value="2020-03-05" data-inputmask="'alias': 'date'" required id="example-date-input" name="todate">
                                         </div> -->
                                         <div class="form-group">
                                         <label for="example-text-input" class="col-form-label">ຊື່ ແລະ ນາມສະກຸນ</label>
-                                            <textarea class="form-control" name="description" type="text" name="description" length="100" id="example-text-input" rows="1" ></textarea>                                                     
+                                            <textarea class="form-control" name="name" type="text"  length="100" id="example-text-input" rows="1" ></textarea>                                                     
                                         </div>
                                         <div class="form-group">
                                             <label for="example-text-input" class="col-form-label">ອາຍຸ</label>
-                                            <input class="form-control" type="number" id="tentacles" name="tentacles" min="10" max="100" />
+                                            <input class="form-control" type="number" id="tentacles" name="old" min="10" max="100" />
                                         </div>
                                         <!-- <div class="form-group">
                                             <label for="example-text-input" class="col-form-label">ເບີຫ້ອງທີ່ໃຊ້ສອນ</label>
@@ -291,11 +294,11 @@ img {vertical-align: middle;}
                                         </div> -->
                                         <div class="form-group">
                                         <label for="example-date-input" class="col-form-label">ວັນທີເຂົ້າສັງກັກລັດ</label>
-                                            <input class="form-control" type="date" value="2020-03-05" data-inputmask="'alias': 'date'" required id="example-date-input" name="fromdate">
+                                            <input class="form-control" type="date" value="2020-03-05" data-inputmask="'alias': 'date'" required id="example-date-input" name="sungkut_date">
                                         </div> 
                                         <div class="form-group">
                                         <label for="example-text-input" class="col-form-label">ຕໍາແໜ່ງ</label>
-                                            <textarea class="form-control" name="description" type="text" name="description" length="100" id="example-text-input" rows="1" ></textarea>                                            
+                                            <textarea class="form-control"  type="text" name="position" length="100" id="example-text-input" rows="1" ></textarea>                                            
                                         </div> 
                                       
                                             <!-- <label for="example-date-input" class="col-form-label">End Date</label>
@@ -310,17 +313,17 @@ img {vertical-align: middle;}
                                         <div class="form-group">
                                             
                                         <label for="example-text-input" class="col-form-label">ໜ້າທີ່ຮັບຜິດຊອບ</label>
-                                            <textarea class="form-control" name="description" type="text" name="description" length="100" id="example-text-input" rows="1" ></textarea>
+                                            <textarea class="form-control"  type="text" name="Responsibilities" length="100" id="example-text-input" rows="1" ></textarea>
                                         </div>
                                         <div class="form-group">
                                             
                                         <label for="example-text-input" class="col-form-label">ສັງກັດ</label>
-                                            <textarea class="form-control" name="description" type="text" name="description" length="100" id="example-text-input" rows="1" ></textarea>
+                                            <textarea class="form-control" name="sungkut" type="text"  length="100" id="example-text-input" rows="1" ></textarea>
                                         </div>
                                         <div class="form-group">
                                             
                                         <label for="example-text-input" class="col-form-label">ຜູ້ກ່ຽວແມ່ນ</label>
-                                            <textarea class="form-control" name="description" type="text" name="description" length="300" id="example-text-input" rows="5" ></textarea>
+                                            <textarea class="form-control" name="person" type="text"  length="300" id="example-text-input" rows="5" ></textarea>
                                         </div>
                                         <!-- <div class="form-group">
                                             <label for="example-text-input" class="col-form-label">ອຈສອນ</label>
@@ -371,3 +374,4 @@ img {vertical-align: middle;}
 </body>
 
 </html>
+<?php } ?> 

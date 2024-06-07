@@ -1,9 +1,92 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_login'])) { // If the user is not logged in
+include('./dbconn.php');
+
+if (!isset($_SESSION['user_login'])) {
+     // If the user is not logged in
     header("location: login.php"); // Redirect to the login page
-    exit;
 }
+else{
+    if (!isset($_SESSION['user_login'])) {
+        // If the user is not logged in
+        header("location: login.php"); // Redirect to the login page
+        exit; // Ensure no further code is executed
+    }
+    
+    if (isset($_POST['apply'])) {
+        // Check if all required fields are set
+
+        $requiredFields = ['from_number', 'name', 'old', 'employment', 'national', 'current', 'khoum', 'nuay', 'home_number', 'family_namber', 'date', 'district', 'province', 'father_name', 'mother_name', 'father_village', 'father_district', 'father_province', 'picture' ];
+        $missingFields = [];
+    
+        foreach ($requiredFields as $field) {
+            if (!isset($_POST[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+    
+        if (!empty($missingFields)) {
+            // Handle missing fields
+            $error = "The following fields are missing: " . implode(', ', $missingFields);
+        } else {
+            // Assign variables
+            $from_number = $_POST['from_number'];
+            $name = $_POST['name'];
+            $old = $_POST['old'];
+            $employment = $_POST['employment'];
+            $national = $_POST['national'];
+            $current = $_POST['current'];
+            $khoum = $_POST['khoum'];
+            $nuay = $_POST['nuay'];
+            $home_number = $_POST['home_number'];
+            $family_namber = $_POST['family_namber'];
+            $date = $_POST['date'];
+            $district = $_POST['district'];
+            $province = $_POST['province'];
+            $father_name = $_POST['father_name'];
+            $mother_name = $_POST['mother_name'];
+            $father_village = $_POST['father_village'];
+            $father_district = $_POST['father_district'];
+            $father_province = $_POST['father_province'];
+            $picture = $_POST['picture'];
+            
+    
+            // Prepare and execute SQL query
+            $sql = "INSERT INTO from_yungyuentu (from_number, name, old, employment, national, current, khoum, nuay, home_number, family_namber, date, district, province, father_name, mother_name, father_village, father_district, father_province, picture) 
+                    VALUES (:from_number, :name, :old, :employment, :national, :current, :khoum, :nuay,  :home_number, :family_namber, :date, :district, :province, :father_name, :mother_name, :father_village, :father_district, :father_province, :picture)";
+            $query = $dbh->prepare($sql);
+            $query->bindParam(':from_number', $from_number, PDO::PARAM_STR);
+            $query->bindParam(':name', $name, PDO::PARAM_STR);
+            $query->bindParam(':old', $old, PDO::PARAM_INT);
+            $query->bindParam(':employment', $employment, PDO::PARAM_STR);
+            $query->bindParam(':national', $national, PDO::PARAM_STR);
+            $query->bindParam(':current', $current, PDO::PARAM_STR);
+            $query->bindParam(':khoum', $khoum, PDO::PARAM_STR);
+            $query->bindParam(':nuay', $nuay, PDO::PARAM_STR);
+            $query->bindParam(':home_number', $home_number, PDO::PARAM_STR);
+            $query->bindParam(':family_namber', $family_namber, PDO::PARAM_STR);
+            $query->bindParam(':date', $date, PDO::PARAM_INT);
+            $query->bindParam(':district', $district, PDO::PARAM_STR);
+            $query->bindParam(':province', $province, PDO::PARAM_STR);
+            $query->bindParam(':father_name', $father_name, PDO::PARAM_STR);
+            $query->bindParam(':mother_name', $mother_name, PDO::PARAM_STR);
+            
+            $query->bindParam(':father_village', $father_village, PDO::PARAM_STR);
+            $query->bindParam(':father_district', $father_district, PDO::PARAM_STR);
+            $query->bindParam(':father_province', $father_province, PDO::PARAM_STR);
+            $query->bindParam(':picture', $picture, PDO::PARAM_STR);
+            $query->execute();
+            $lastInsertId = $dbh->lastInsertId();
+    
+            if ($lastInsertId) {
+                $msg = "ທ່ານປ້ອນຂໍ້ມູນສຳເລັດ";
+            } else {
+                $error = "ຂໍອາໄພ, ທ່ານປ້ອນຂໍ້ມູນບໍ່ຖືກ. ກາລຸນາລອງໃໝ່ອີກຄັ່ງ.";
+            }
+        }
+    }
+    
+
 include('../function.php');
 $user = $_SESSION['user_login'];
 
@@ -12,13 +95,8 @@ if ($user['level'] == 'administrator') {
     header("location: admin.php"); // Redirect to the admin page
     exit;
 }
-$lastInsertId = null;
-if($lastInsertId)
-{
-     $msg="ສົ່ງຂໍ້ມູນສຳເລັດ";
-}   else    {
-    $error="ຂໍອະໄພປ້ອນຂໍ້ມູນບໍ່ຖືກ ລອງໃໝ່ອີກຄັ້ງ";
-}
+
+
 
 ?>
 <!DOCTYPE html>
@@ -27,8 +105,8 @@ if($lastInsertId)
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title >  ສະຖາບັນການທະນາຄານ</title>
-    <link rel="icon" type="image/x-icon" href="../assets/images/BI.png">
+    <title >  </title>
+  
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="../assets/images/icon/favicon.ico">
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
@@ -44,6 +122,7 @@ if($lastInsertId)
     <link rel="stylesheet" href="../assets/css/typography.css">
     <link rel="stylesheet" href="../assets/css/default-css.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="./from.css">
     <link rel="stylesheet" href="../assets/css/fonts.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -148,70 +227,28 @@ img {vertical-align: middle;}
 @media only screen and (max-width: 300px) {
   .prev, .next,.text {font-size: 11px}
 }
+.w3-bar {
+  width: 100%;
+  overflow: hidden;
+  background-color: #000000;
+}
 </style>
 <body>
     
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a style="font-family: Noto Sans Lao;" class="navbar-brand fw-bold text-uppercase" href="#">ເວັບໄຊຫ້ອງການບ້ານດອນແດງ</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link me-2" href="index.php" style="font-family: Noto Sans Lao;">
-                        <i  class="bi bi-house-fill me-1"></i>ໜ້າຫຼັກ
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link me-2" href="#" style="font-family: Noto Sans Lao;">
-                        <i class="bi bi-people-fill me-1"></i>ແຈ້ງການ
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-family: Noto Sans Lao;">
-                        ໃບຄຳຮ້ອງ
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <!-- <a target="_blank" href="print-details.php?id=<?=$row['id']?>" class="btn btn-sm btn-primary"> <i class="fa fa-file-pdf-o"></i> Print  Details</a> -->
-                        <li><a class="dropdown-item" target="_blank" href="print-details.php?id=<?=$row['id']?>" style="font-family: Noto Sans Lao;"><i class="bi bi-houses-fill me-2"></i>ໃບຢັ້ງຢືນທີ່ຢູ່</a></li>
-                        <li><a class="dropdown-item" target="_blank" href="print-details2.php?id=<?=$row['id']?>" style="font-family: Noto Sans Lao;"><i class="bi bi-people-fill me-2"></i>ໃບຄຳຮ້ອງ</a></li>
-                        <li><a class="dropdown-item" target="_blank" href="print-details3.php?id=<?=$row['id']?>" style="font-family: Noto Sans Lao;"><i class="bi bi-journals me-2"></i>ໃບຢັ້ງຢືນ</a></li>
-                        <li><a class="dropdown-item" target="_blank" href="print-details4.php?id=<?=$row['id']?>" style="font-family: Noto Sans Lao;"><i class="bi bi-journal-text me-2"></i>ໃບຊີວະປະຫວັດ</a></li>
-                        <li><a class="dropdown-item" href="#" style="font-family: Noto Sans Lao;"><i class="bi bi-journal-text me-2"></i>ໃບຄຳຮ້ອງຂໍຖືບັດພັກເຊົາຊົ່ວຄາວ</a></li>
-                    </ul>
-
-                        
-                </li>   
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-family: Noto Sans Lao;">
-                        ລາຍງານ
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="" style="font-family: Noto Sans Lao;"><i class="bi bi-houses-fill me-2"></i>ລາຍງານໃບຢັ້ງຢືນທີ່ຢູ່</a></li>
-                        <li><a class="dropdown-item" href="profile.php" style="font-family: Noto Sans Lao;"><i class="bi bi-people-fill me-2"></i>ລາຍງານໃບຄຳຮ້ອງ</a></li>
-                        <li><a class="dropdown-item" href="#" style="font-family: Noto Sans Lao;"><i class="bi bi-journals me-2"></i>ລາຍງານໃບຢັ້ງຢືນ</a></li>
-                        <li><a class="dropdown-item" href="#" style="font-family: Noto Sans Lao;"><i class="bi bi-journal-text me-2"></i>ລາຍງານໃບຊີວະປະຫວັດ</a></li>
-                        <li><a class="dropdown-item" href="#" style="font-family: Noto Sans Lao;"><i class="bi bi-journal-text me-2"></i>ລາຍງານນັດໝາຍ</a></li>
-                    </ul>
-                </li>  
-            </ul>
-                    <li style="font-family: Noto Sans Lao;" class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            ສະບາຍດີ<?php echo $user['fullname']; ?>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">ຂໍ້ມູນສ່ວນຕົວ</a></li>
-                            <li><a class="dropdown-item" href="logout_action.php">ອອກ</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-    </nav>
+<div class="w3-top nav">
+ <div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
+  <a href="../index.php" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>ໜ້າຫຼັກ</a>
+  <a href="#team" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ໂຄງຮ່າງການຈັດຕັ້ງ</a>
+  <a href="#work" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ແຈ້ງການ </a>
+  <a href="#notice" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ການເຄື່ອນໄຫວ</a>
+  <a href="#form" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ໃບຄຳຮ້ອງ</a>
+  <a href="../h2.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ລູກບ້ານ</a>
+  <a href="../h.php" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ຜູ້ພັກເຊົ່າ</a>
+  
+  <a href="#contact" class="w3-bar-item w3-button w3-hide-small w3-hover-white">ຕິດຕໍ່</a>
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>
+ </div> 
     <div class="main-content">
             <!-- header area start -->
            
@@ -246,7 +283,7 @@ img {vertical-align: middle;}
                             <div class="col-12 mt-5">
                            
                             
-                            <?php if($error){?><div class="alert alert-danger alert-dismissible fade show"><strong>Info: </strong><?php echo htmlentities($error); ?>
+                            <!-- <?php if($error){?><div class="alert alert-danger alert-dismissible fade show"><strong>Info: </strong><?php echo htmlentities($error); ?>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -256,7 +293,7 @@ img {vertical-align: middle;}
                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                 </div><?php }?>
+                                 </div><?php }?> -->
                                 <div class="card">
                                 <form name="addemp" method="POST">
 
@@ -265,24 +302,24 @@ img {vertical-align: middle;}
                                         <!-- <p class="text-muted font-14 mb-4">Please fill up the form below.</p> -->
                                         <div class="form-group">
                                         <label for="example-text-input" class="col-form-label">ຕິດຮູບ3*4</label>
-                                        <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
+                                        <input type="file" id="avatar" name="picture" accept="image/png, image/jpeg" />
                                         </div>
                                         <div class="form-group">
                                         <label for="example-text-input" class="col-form-label">ເລກທີ</label>
-                                        <input class="form-control" type="number" id="tentacles" name="tentacles" min="10" max="100" />
+                                        <input class="form-control"  type="text" id="tentacles" name="from_number" min="10" max="100" />
                                         </div>
             
                                         <div class="form-group">
                                         <label for="example-text-input" class="col-form-label">ຂໍຢັ້ງຢືນວ່າ ທ້າວ ຫຼື ນາງ</label>
-                                            <textarea class="form-control" name="description" type="text" name="description" length="100" id="example-text-input" rows="1" ></textarea>
+                                            <textarea class="form-control" name="name" type="text"  length="100" id="example-text-input" rows="1" ></textarea>
                                         </div>
                                         <div class="form-group">
                                         <label for="example-text-input" class="col-form-label">ອາຍຸ</label>
-                                            <input class="form-control" type="number" id="tentacles" name="tentacles" min="10" max="100" />
+                                            <input class="form-control" type="number" id="tentacles" name="old" min="10" max="100" />
                                         </div>
                                         <div class="form-group">
                                                 <label for="example-text-input" class="col-form-label">ອາຊິບ</label>
-                                            <textarea class="form-control" name="description" type="text" name="description" length="100" id="example-text-input" rows="1" ></textarea> 
+                                            <textarea class="form-control" name="employment" type="text"  length="100" id="example-text-input" rows="1" ></textarea> 
                                         </div>
 
                                         <!-- <div class="form-group">
@@ -291,95 +328,115 @@ img {vertical-align: middle;}
                                         </div> -->
                                          <div class="form-group">
                                              <label for="example-text-input" class="col-form-label">ສັນຊາດ</label>
-                                            <textarea class="form-control" name="description" type="text" name="description" length="100" id="example-text-input" rows="1" ></textarea>                                                     
+                                            <textarea class="form-control"  type="text" name="national" length="100" id="example-text-input" rows="1" ></textarea>                                                     
                                         </div>
                                         <div class="form-group">
                                              <label for="example-text-input" class="col-form-label">ທີຢູ່ປັດຈຸບັນບ້ານ</label>
-                                            <textarea class="form-control" name="description" type="text" name="description" length="100" id="example-text-input" rows="1" ></textarea> 
+                                            <textarea class="form-control"  type="text" name="current" length="100" id="example-text-input" rows="1" ></textarea> 
                                         </div>
                                         <div>
                                              <label for="example-text-input" class="col-form-label">ຄຸ້ມ</label>
-                                            <input class="form-control" type="number" id="tentacles" name="tentacles" min="0" max="1000" />
+                                            <input class="form-control" type="number" id="tentacles" name="khoum" min="0" max="1000" />
                                         </div>
                                         <div>
                                              <label for="example-text-input" class="col-form-label">ໜ່ວຍ</label>
-                                            <input class="form-control" type="number" id="tentacles" name="tentacles" min="0" max="1000" />
+                                            <input class="form-control" type="number" id="tentacles" name="nuay" min="0" max="1000" />
                                         </div>
                                         <div>
                                             <label for="example-text-input" class="col-form-label">ເຮືອນເລກທີ</label>
-                                            <input class="form-control" type="number" id="tentacles" name="tentacles" min="0" max="1000" />
+                                            <input class="form-control" type="number" id="tentacles" name="home_number" min="0" max="1000" />
                                         </div>
                                        
                                         <div class="form-group">
                                              <label for="example-text-input" class="col-form-label">ເລກທີສຳມະໂນຄົວທີ</label>
-                                            <input class="form-control" type="number" id="tentacles" name="tentacles" min="0" max="1000" />
+                                            <input class="form-control" type="number" id="tentacles" name="family_namber" min="0" max="1000" />
                                         </div>  
                                         <div class="form-group">
                                         <label for="example-text-input" class="col-form-label">ລົງວັນທີ</label>
-                                        <input class="form-control" type="date" value="2020-03-05" data-inputmask="'alias': 'date'" required id="example-date-input" name="fromdate">           
+                                        <input class="form-control" type="date" value="2020-03-05" data-inputmask="'alias': 'date'" required id="example-date-input" name="date">           
                                         </div> 
                                       
                                             
-                                        <div class="form-group">
-                                            
-                                        <label for="example-text-input" class="col-form-label">ປັດຈຸບັນຢູ່ໜ່ວຍ</label>
-                                        <input class="form-control" type="number" id="tentacles" name="tentacles" min="0" max="1000" />
-                                        </div>
                                         
                                         <div class="form-group">
                                             
                                         <label for="example-text-input" class="col-form-label">ເມືອງ</label>
-                                        <select class="custom-select" name="leavetype" autocomplete="off"  id="">
-                                                <option value="">ກາລູນາເລືອກເມືອງ</option>
-                
-                                            </select>
+                                        <textarea class="form-control"  type="text" name="district" length="100" id="example-text-input" rows="1" ></textarea>
                                         </div>
                                             
                                     
                                         <div class="form-group">
                                             
                                         <label for="example-text-input" class="col-form-label">ແຂວງ</label>
-                                        <select class="custom-select" name="leavetype" autocomplete="off"  id="">
+                                        <select class="custom-select" name="province" autocomplete="off"  id="">
                                                 <option value="">ກາລູນາເລືອກແຂວງ</option>
-                
+                                                <?php $sql = "SELECT province from tbl_province";
+                                                    $query = $dbh -> prepare($sql);
+                                                    $query->execute();
+                                                    $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                                    $cnt=1;
+                                                    if($query->rowCount() > 0) {
+                                                        foreach($results as $result)
+                                                {   ?> 
+                                                <option value="<?php echo htmlentities($result->province);?>"><?php echo htmlentities($result->province);?></option>
+                                                <?php }
+                                            } 
+                                            // if(isset($_POST['classroom'])){
+                                            //     foreach($_POST['classroom'] as $selected){
+                                            //         echo $selected;
+                                            //     }
+                                            // }
+                                            ?>
+                                                        
+                                            
+                                           
+                                            
                                             </select>
                                         </div>
                                         <div class="form-group">
                                         <label for="example-text-input" class="col-form-label">ເປັນລູກຂອງທ້າວ</label>
-                                            <textarea class="form-control" name="description" type="text" name="description" length="100" id="example-text-input" rows="1" ></textarea>                                                     
+                                            <textarea class="form-control" name="father_name" type="text"  length="100" id="example-text-input" rows="1" ></textarea>                                                     
                                         </div>
-                                        <div class="form-group">
-                                        <label for="example-text-input" class="col-form-label">ຊື່ ແລະ ນາມສະກຸນ</label>
-                                            <textarea class="form-control" name="description" type="text" name="description" length="100" id="example-text-input" rows="1" ></textarea>                                                     
-                                        </div>
-
+                                       
                                         <div class="form-group">
                                         <label for="example-text-input" class="col-form-label">ແລະ ນາງ</label>
-                                            <textarea class="form-control" name="description" type="text" name="description" length="100" id="example-text-input" rows="1" ></textarea>
+                                            <textarea class="form-control" name="mother_name" type="text"  length="100" id="example-text-input" rows="1" ></textarea>
                                         </div>
                                         <div class="form-group">
                                             
                                             <label for="example-text-input" class="col-form-label">ບ້ານ</label>
-                                            <select class="custom-select" name="leavetype" autocomplete="off"  id="">
-                                                    <option value="">ກາລູນາເລືອກບ້ານ</option>
-                    
-                                                </select>
+                                            <textarea class="form-control" name="father_village" type="text"  length="100" id="example-text-input" rows="1" ></textarea>
                                             </div>
                                             <div class="form-group">
                                                 
                                             <label for="example-text-input" class="col-form-label">ເມືອງ</label>
-                                            <select class="custom-select" name="leavetype" autocomplete="off"  id="">
-                                                    <option value="">ກາລູນາເລືອກເມືອງ</option>
-                    
-                                                </select>
+                                            <textarea class="form-control" name="father_district" type="text"  length="100" id="example-text-input" rows="1" ></textarea>
                                             </div>
                                                 
                                         
                                             <div class="form-group">
                                                 
                                             <label for="example-text-input" class="col-form-label">ແຂວງ</label>
-                                            <select class="custom-select" name="leavetype" autocomplete="off"  id="">
+                                            <select class="custom-select" name="father_province" autocomplete="off"  id="">
                                                     <option value="">ກາລູນາເລືອກແຂວງ</option>
+
+                                                    <?php $sql = "SELECT province from tbl_province";
+                                                    $query = $dbh -> prepare($sql);
+                                                    $query->execute();
+                                                    $results=$query->fetchAll(PDO::FETCH_OBJ);
+                                                    $cnt=1;
+                                                    if($query->rowCount() > 0) {
+                                                        foreach($results as $result)
+                                                {   ?> 
+                                                <option value="<?php echo htmlentities($result->province);?>"><?php echo htmlentities($result->province);?></option>
+                                                <?php }
+                                            } 
+                                            // if(isset($_POST['classroom'])){
+                                            //     foreach($_POST['classroom'] as $selected){
+                                            //         echo $selected;
+                                            //     }
+                                            // }
+                                            ?>
                     
                                                 </select>
                                             </div> 
@@ -434,3 +491,5 @@ img {vertical-align: middle;}
 </body>
 
 </html>
+<?php 
+} ?> 

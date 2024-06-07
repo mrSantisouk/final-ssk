@@ -7,7 +7,11 @@ if (isset($_SESSION['user_login'])) { // ถ้าเข้าระบบอย
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
+<style>
+body{
+    background-color: #656667;
+}
+</style>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,6 +24,7 @@ if (isset($_SESSION['user_login'])) { // ถ้าเข้าระบบอย
 </head>
 
 <body>
+    <div style="background-color: #656667;">
     <div class="container">
         <div class="register-box bg-light p-5 rounded mt-3">
             <h1>ລົງທະບຽນລູກບ້ານ</h1>
@@ -111,6 +116,7 @@ if (isset($_SESSION['user_login'])) { // ถ้าเข้าระบบอย
             </form>
             </form>
         </div>
+    </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>

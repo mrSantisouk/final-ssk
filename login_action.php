@@ -6,7 +6,7 @@ if (isset($_SESSION['user_login'])) { // ถ้าเข้าระบบอย
 }
 
 include_once("./function.php");
-$objCon = connectDB(); // เชื่อมต่อฐานข้อมูล
+ // เชื่อมต่อฐานข้อมูล
 $username = mysqli_real_escape_string($objCon, $_POST['username']); // รับค่า username
 $password = mysqli_real_escape_string($objCon, $_POST['password']); // รับค่า password
 

@@ -1,0 +1,59 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    background-color: #ff0000;
+    margin: 0;
+}
+
+.carousel {
+    position: relative;
+    width: auto;
+    max-width: 600px;
+    overflow: hidden;
+    border-radius: auto
+    ;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    min-width: auto;
+    box-sizing: border-box;
+}
+
+.carousel-item img {
+    width: auto;
+    display: block;
+}
+
+.carousel-control {
+    position: absolute;
+    top: auto;
+    transform: translateY(auto);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 50%;
+}
+
+.carousel-control.prev {
+    left: auto;
+}
+
+.carousel-control.next {
+    right: auto;
+}
+
+.carousel-control:focus {
+    outline: none;
+}

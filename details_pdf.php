@@ -14,13 +14,13 @@
              <p style=" font-size:16;">ໃບຄຳຮ້ອງ</p>
         
     </center>
-    <p style="margin-left: 90px;">ຮຽນ:.......................................................</p>
-    <p style="margin-left: 90px;">ເລື່ອງ:</p>
-    <p style="margin-left: 80px;">ຊື່ ແລະ ນາມສະກຸນ...................... ອາຍຸ......... ປີ, ສັນຊາດ...............</p>
-    <p style="margin-left: 80px;">ອາຊິບ............. ໄດ້ຈົດເຂົ໊າສຳມະໂນຄົວເລກທີ............ ລົງວັນທີ...../...../......</p>
-    <p style="margin-left: 80px;">ປັດຈຸບັນຢູ່ໜ່ວຍ........ ບ້ານ.......... ເມືອງ.......... ແຂວງ............</p>
-    <p style="margin-left: 90px;">ຂໍຖືເປັນກຽດຢ່າງສູງຮຽນມາຍັງທ່ານ ເພື່ອຂໍຈົດທະບຽນແຕ່ງດອງ.</p>
-    <p style="margin-left: 90px;">ຖ້າໄດ້ຮັບການອານຸຍາດກົດໝາຍແລ້ວ, ພວກຂ້າພະເຈົ້າຂໍປະຕິຍານດັ່ງລຸມນີ້:</p>
+    <p style="margin-left: 90px;">ຮຽນ:<?= $user['hn'] ?></p>
+    <p style="margin-left: 90px;">ເລື່ອງ:<?= $user['story'] ?></p>
+    <p style="margin-left: 80px;">ຊື່ ແລະ ນາມສະກຸນ<?= $user['name'] ?> ອາຍຸ<?= $user['old'] ?> ປີ, ສັນຊາດ<?= $user['national'] ?></p>
+    <p style="margin-left: 80px;">ອາຊິບ<?= $user['employment'] ?> ໄດ້ຈົດເຂົ໊າສຳມະໂນຄົວເລກທີ<?= $user['family_number'] ?> ລົງວັນທີ<?= $user['date'] ?></p>
+    <p style="margin-left: 80px;">ປັດຈຸບັນຢູ່ໜ່ວຍ<?= $user['new_nuay'] ?> ບ້ານ<?= $user['vinllage'] ?> ເມືອງ<?= $user['district'] ?> ແຂວງ<?= $user['province'] ?></p>
+    <p style="margin-left: 90px;">ຂໍຖືເປັນກຽດຢ່າງສູງຮຽນມາຍັງທ່ານ ແລະ ການຈັດຕັ້ງ.</p>
+    <p style="margin-left: 90px;">ເຮົາເອງມີຈຸດປະສົງ:<?= $user['joutpasong'] ?></p>
     <p style="margin-left: 100px;"></p>
     <p style="margin-left: 100px;">ດັ່ງນັ້ນ: ຈຶ່ງໄດ້ຮ້ອງຂໍມາຍັງທ່ານ ການຈັດຕັ້ງເພື່ອພິຈາລະນາ ແລະ ເຫັນສົມຄວນດ້ວຍ.</p>
     <center><p >ຮຽນມາດ້ວຍຄວາມນັບຖືຢ່າງສູງ.</p></center>
