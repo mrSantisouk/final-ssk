@@ -599,11 +599,16 @@ if (isset($_POST['save'])) {
       <p><i class="fa fa-map-marker w3-text-teal w3-xlarge"></i>  ນະຄອນຫຼວງວຽງຈັນ, ຈັນທະບູລີ, ດອນແດງ</p>
       <p><i class="fa fa-phone w3-text-teal w3-xlarge"></i>  +00 1515151515</p>
       <p><i class="fa fa-envelope-o w3-text-teal w3-xlarge"></i>  test@test.com</p>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1095.9724048566106!2d102.60352408538937!3d18.005861475255877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x312468195beaf527%3A0x5588f8be86a35edc!2z4Lqa4LuJ4Lqy4LqZ4LqU4Lqt4LqZ4LuB4LqU4LqHLOC7gOC6oeC6t-C6reC6h-C6iOC6seC6meC6l-C6sOC6muC6ueC6peC6tQ!5e0!3m2!1sth!2sla!4v1718301460455!5m2!1sth!2sla" width="400" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
-    <div class="w3-col m7">
+   <div class="w3-col m6">
+    <div class="w3-padding-16"><span class="w3-xlarge w3-border-teal w3-bottombar">ແຜນທີ່</span></div>
+
+    </div>
+    <div class="w3-col m6">
   <form method="POST">
-    <div class="w3-section">      
-    <div class="w3-section">      
+        
+      
       <div class="w3-section">      
       <label>ວັນທີ່</label>
       <input class="w3-input" type="date" name="Feedback_date" required>
